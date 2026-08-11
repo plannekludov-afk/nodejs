@@ -1,21 +1,41 @@
-const express = require('express');
-const path = require('path');
-const indexRouter = require('./routes/index');
+document.getElementById('downloadBtn').addEventListener('click', async () => {
+    const urlInput = document.getElementById('videoUrl');
+    const status = document.getElementById('status');
+    const btn = document.getElementById('downloadBtn');
+    
+    const url = urlInput.value.trim();
+    
+    if (!url) {
+        status.textContent = '⚠ Вставьте ссылку';
+        status.style.color = 'red';
+        return;
+    }
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+    // Визуальная загрузка
+    btn.disabled = true;
+    btn.textContent = 'CONNECTING...';
+    status.innerHTML = '<div class="loading"></div>';
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Use the router for handling routes
-app.use('/', indexRouter);
-
-// Catch-all route for handling 404 errors
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  });
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+    try {
+        // Создаем скрытую ссылку для скачивания
+        // Мы используем /api/download, который стримит файл
+        const downloadUrl = `/api/download?url=${encodeURIComponent(url)}`;
+        
+        // Трюк для запуска скачивания на мобильных устройствах
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = 'ASTRAL_VIDEO.mp4'; 
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        status.textContent = '✔ ПОРТАЛ ОТКРЫТ';
+        status.style.color = '#00ffcc';
+    } catch (err) {
+        status.textContent = '✖ ОШИБКА СВЯЗИ';
+        status.style.color = 'red';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'СКАЧАТЬ';
+    }
 });
