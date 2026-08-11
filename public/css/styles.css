@@ -1,28 +1,125 @@
-html {
-    height: 100%;
-    width: 100%;
-  }
-  
-  body {
-    display: table;
-    height: 100%;
+:root {
+    --neon-pink: #ff00ff;
+    --neon-blue: #00ffff;
+    --dark-bg: #050510;
+}
+
+body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  
-  .row {
-    display: table-row;
-    height: 75%;
-    background-color: #282828;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-bg);
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+/* Психоделический фон */
+.bg-animation {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(45deg, #ff00cc, #333399, #00ffcc, #ff00cc);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    opacity: 0.4;
+    filter: blur(40px);
+    z-index: -1;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    background: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-  }
-  
-  .h1 {
-    font-size: 54px;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, #FFFFFF 0%, #FF6600 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-top: 100px;
-  }
+    box-shadow: 0 0 50px rgba(255, 0, 255, 0.3);
+}
+
+h1 {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue);
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+/* Мобильная оптимизация ввода */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px; /* Предотвращает зум на iOS */
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Кнопка ASTRAL */
+.btn-astral {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    border: none;
+    padding: 18px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    transition: transform 0.1s;
+    touch-action: manipulation; /* Убирает задержку клика на мобилках */
+}
+
+.btn-astral:active {
+    transform: scale(0.95);
+}
+
+.status-msg {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    height: 20px;
+}
+
+.loading {
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
